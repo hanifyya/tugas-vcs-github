@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mole Hover Game</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        height: 100vh;
+        background-color: #7ec850;
+      }
+
+      .hole {
+        width: 100px;
+        height: 100px;
+        margin: 5px;
+        background-color: #5c4033;
+        border-radius: 50%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .mole {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        background-color: brown;
+        border-radius: 50%;
+        transition: bottom 0.1s;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const numHoles =
+        Math.floor(window.innerWidth / 110) *
+        Math.floor(window.innerHeight / 110);
+      const holes = [];
+      let moleIndex = Math.floor(Math.random() * numHoles);
+
+      // Create holes
+      for (let i = 0; i < numHoles; i++) {
+        const hole = document.createElement("div");
+        hole.className = "hole";
+        document.body.appendChild(hole);
+        holes.push(hole);
+      }
+
+      // Create mole
+      const mole = document.createElement("div");
+      mole.className = "mole";
+      holes[moleIndex].appendChild(mole);
+
+      // Mole evades on hover
+      mole.addEventListener("mouseenter", () => {
+        holes[moleIndex].removeChild(mole);
+        let newIndex;
+        do {
+          newIndex = Math.floor(Math.random() * numHoles);
+        } while (newIndex === moleIndex);
+        moleIndex = newIndex;
+        holes[moleIndex].appendChild(mole);
+      });
+    </script>
+  </body>
+</html>
